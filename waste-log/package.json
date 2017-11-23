@@ -5,7 +5,8 @@
   "private": true,
   "dependencies": {
     "react": "^16.1.1",
-    "react-dom": "^16.1.1"
+    "react-dom": "^16.1.1",
+    "sequelize": "^4.22.15"
   },
   "devDependencies": {
     "react-scripts": "1.0.17"
