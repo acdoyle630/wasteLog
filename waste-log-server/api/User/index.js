@@ -13,11 +13,10 @@ const saltRounds = 10;
 
 
 user.post('/',(req, res) =>{
-  console.log(req.body)
   bcrypt.genSalt(saltRounds, function(err, salt) {
     bcrypt.hash(req.body.password, salt, function(err, hash) {
       User.create({
-        userName : req.body.userName,
+        username : req.body.username,
         password : hash
       })
       .then((user) =>{

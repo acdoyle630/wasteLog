@@ -73,7 +73,8 @@ passport.use(new LocalStrategy (
 ));
 
 passport.serializeUser(function(user, done) {
-  console.log('SERIALIZE', user);
+  console.log("ENTERED SERIALIZE")
+;  console.log('SERIALIZE', user);
   done(null, {
     id: user.id,
     username: user.username,
@@ -91,7 +92,9 @@ passport.deserializeUser(function(user, done) {
 app.use('/api', require('./api'));
 
 app.post('/login', (req, res) => {
+  console.log(req.body);
   passport.authenticate('local', (err, user) => {
+    console.log('ENTERED AUTHETICATE');
     if (err) return res.json({ err });
 
     if (!user) return res.json({ message: 'invalid' });
@@ -112,5 +115,5 @@ app.get('/logout', function(req, res){
 
 app.listen(PORT, () =>{
   console.log(`server listening on port: ${PORT}`);
-  //db.sequelize.sync({forceSync: true});
+  db.sequelize.sync({forceSync: true});
 });

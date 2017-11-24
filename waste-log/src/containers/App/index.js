@@ -12,16 +12,42 @@ class App extends Component {
     this.state = {
       loggedIn : false,
       signedUp : true,
-      userName : "",
-      password : ""
+      username : "",
+      password : "",
+      error : ""
     };
   }
 
   handleSubmit = ( event ) => {
     event.preventDefault();
-    this.setState({
+    this.authUser( this.state )
+    /*this.setState({
       loggedIn : true
-    })
+    })*/
+  }
+
+  authUser( user ) {
+    return fetch('/logIn',{
+        method: "POST",
+        credentials : 'include',
+        headers:
+        {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify(user)
+      }).then(response =>{
+          return(response.json())
+      }).then(data => {
+        if(data.message === 'invalid'){
+          this.setState({
+            error: "invalid username password"
+          })
+        }
+        else {
+          console.log("LOGIN SUCCESS")
+        }
+      })
   }
 
   handleSignUpSubmit = ( event ) =>{
@@ -30,6 +56,19 @@ class App extends Component {
       signedUp : false
     })
   }
+
+  handleusernameChange = ( event ) => {
+    this.setState({
+      username : event.target.value
+    })
+  }
+
+  handlePasswordChange = ( event ) => {
+    this.setState({
+      password : event.target.value
+    })
+  }
+
 
   render() {
     if(this.state.loggedIn === true){
@@ -56,10 +95,10 @@ class App extends Component {
           </header>
           <div className = "testing">
             <form onSubmit = {this.handleSubmit} className = "product-post-form">
-              <input className = "user-name" type = "text" placeholder = "User Name" value = {this.userName} onChange = {this.handleUserNameChange} />
+              <input className = "user-name" type = "text" placeholder = "User Name" value = {this.username} onChange = {this.handleusernameChange} />
               <input className = "password" type = "password" placeholder = "Password" value = {this.password} onChange = {this.handlePasswordChange} />
               <button className = "button" type = "submit">
-              Log In
+              LOG IN
               </button>
             </form>
           </div>

@@ -10,7 +10,7 @@ class App extends Component {
     super(props);
 
     this.state = {
-      userName : "",
+      username : "",
       password : "",
       passwordTwo : "",
       signedUp : false,
@@ -19,9 +19,9 @@ class App extends Component {
     };
   }
 
-  handleUserNameChange = ( event ) => {
+  handleusernameChange = ( event ) => {
     this.setState({
-      userName : event.target.value
+      username : event.target.value
     })
   }
 
@@ -83,11 +83,11 @@ class App extends Component {
           </header>
           <div className = "testing">
             <form onSubmit = {this.handleSignInSubmit} className = "product-post-form">
-              <input className = "user-name" type = "text" placeholder = "User Name" value = {this.userName} onChange = {this.handleUserNameChange} />
+              <input className = "user-name" type = "text" placeholder = "User Name" value = {this.username} onChange = {this.handleusernameChange} />
               <input className = "password" type = "password" placeholder = "Password" value = {this.password} onChange = {this.handlePasswordChange} />
               <input className = "password" type = "password" placeholder = "Password" value = {this.passwordTwo} onChange = {this.handlePasswordTwoChange} />
               <button className = "button" type = "submit">
-              SIGN IN
+              SIGN UP
               </button>
             </form>
           </div>

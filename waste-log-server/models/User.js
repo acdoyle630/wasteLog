@@ -6,7 +6,7 @@ const router = express.Router();
 module.exports = function(sequelize, DataTypes) {
   var User = sequelize.define("User", {
 
-    userName : {
+    username : {
       type : DataTypes.STRING,
       allowNull: false
     },
