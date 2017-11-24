@@ -13,9 +13,57 @@ class App extends Component {
       userName : "",
       password : "",
       passwordTwo : "",
-      signedUp : false
+      signedUp : false,
+      uniqueUser : true,
+      validPassword : true
     };
   }
+
+  handleUserNameChange = ( event ) => {
+    this.setState({
+      userName : event.target.value
+    })
+  }
+
+  handlePasswordChange = ( event ) => {
+    this.setState({
+      password : event.target.value
+    })
+  }
+
+  handlePasswordTwoChange = ( event ) => {
+    this.setState({
+      passwordTwo : event.target.value
+    })
+  }
+
+  handleSignInSubmit = ( event ) => {
+    event.preventDefault();
+    if(this.state.uniqueUser && this.state.validPassword && this.state.password === this.state.passwordTwo){
+      this.signUp(this.state);
+    }
+  }
+
+  signUp( user ) {
+    fetch('/api/User',{
+        method: "POST",
+        credentials : 'include',
+        headers:
+        {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify(user)
+     }).then(response =>{
+        //this.clearState()
+        //this.signedUp = true;
+      }).catch(error => {
+        this.setState({
+          error : error
+        });
+      })
+  }
+
 
 
   render() {
@@ -34,7 +82,7 @@ class App extends Component {
             <h1 className="App-title">Waste-Log SIGN UP PAGE</h1>
           </header>
           <div className = "testing">
-            <form onSubmit = {this.handleSubmit} className = "product-post-form">
+            <form onSubmit = {this.handleSignInSubmit} className = "product-post-form">
               <input className = "user-name" type = "text" placeholder = "User Name" value = {this.userName} onChange = {this.handleUserNameChange} />
               <input className = "password" type = "password" placeholder = "Password" value = {this.password} onChange = {this.handlePasswordChange} />
               <input className = "password" type = "password" placeholder = "Password" value = {this.passwordTwo} onChange = {this.handlePasswordTwoChange} />
