@@ -12,6 +12,7 @@ import App from './containers/App';
 import registerServiceWorker from './registerServiceWorker';
 
 import product from './containers/App/product';
+import signup from './containers/App/signup';
 
 
 const store = createStore(
@@ -25,6 +26,7 @@ ReactDOM.render(
       <div>
         <Route exact path="/" component={App}/>
         <Route path="/product" component={product} />
+        <Route path="/signUp" component={signup} />
       </div>
     </Router>
   </Provider>,

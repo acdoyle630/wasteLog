@@ -10,63 +10,36 @@ class App extends Component {
     super(props);
 
     this.state = {
-      loggedIn : false,
-      signedUp : true,
       userName : "",
-      password : ""
+      password : "",
+      passwordTwo : "",
+      signedUp : false
     };
   }
 
-  handleSubmit = ( event ) => {
-    event.preventDefault();
-    this.setState({
-      loggedIn : true
-    })
-  }
-
-  handleSignUpSubmit = ( event ) =>{
-    event.preventDefault();
-    this.setState({
-      signedUp : false
-    })
-  }
 
   render() {
-    if(this.state.loggedIn === true){
+    if(this.state.signedUp === true){
       return(
         <Redirect to={{
-          pathname : "/product"
+          pathname : "/"
         }} />
         )
     }
-
     if(this.state.signedUp === false){
-      return(
-        <Redirect to={{
-          pathname : "/signUp"
-        }} />
-        )
-    }
-    if(this.state.loggedIn === false){
       return (
         <div className="App">
           <header className="App-header">
             <img src={logo} className="App-logo" alt="logo" />
-            <h1 className="App-title">Waste-Log LOGGIN PAGE</h1>
+            <h1 className="App-title">Waste-Log SIGN UP PAGE</h1>
           </header>
           <div className = "testing">
             <form onSubmit = {this.handleSubmit} className = "product-post-form">
               <input className = "user-name" type = "text" placeholder = "User Name" value = {this.userName} onChange = {this.handleUserNameChange} />
               <input className = "password" type = "password" placeholder = "Password" value = {this.password} onChange = {this.handlePasswordChange} />
+              <input className = "password" type = "password" placeholder = "Password" value = {this.passwordTwo} onChange = {this.handlePasswordTwoChange} />
               <button className = "button" type = "submit">
-              Log In
-              </button>
-            </form>
-          </div>
-          <div className = "testing">
-            <form onSubmit = {this.handleSignUpSubmit} className = "sign-up-form">
-              <button className = "button" type = "submit">
-              SIGN UP
+              SIGN IN
               </button>
             </form>
           </div>
