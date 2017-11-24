@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './styles.css';
+import { connect } from 'react-redux';
+import { Link, Redirect } from 'react-router-dom';
+
 
 class App extends Component {
 
@@ -8,7 +11,8 @@ class App extends Component {
     super(props);
 
     this.state = {
-      productName : ""
+      productName : "",
+      returnHome : false
     };
 
   }
@@ -38,8 +42,21 @@ class App extends Component {
     });
   }
 
-  render() {
+  redirectHome = ( event ) => {
+    event.preventDefault();
+    this.setState({
+      returnHome : true
+    });
+  }
 
+  render() {
+    if(this.state.returnHome === true){
+      return(
+        <Redirect to={{
+          pathname : '/'
+        }} />
+        )
+    }
     return (
       <div className="App">
         <header className="App-header">
@@ -51,6 +68,13 @@ class App extends Component {
             <input className = "product-name" type = "text" placeholder = "Product Name" value = {this.productName} onChange = {this.handleProductNameChange} />
             <button className = "button" type = "submit">
             Add Product
+            </button>
+          </form>
+        </div>
+        <div className="Return Home">
+          <form onSubmit={this.redirectHome}>
+            <button className = "button" type = "submit">
+              RETURN HOME
             </button>
           </form>
         </div>
