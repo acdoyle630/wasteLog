@@ -14,10 +14,36 @@ class App extends Component {
       password : "",
       passwordTwo : "",
       signedUp : false,
-      uniqueUser : true,
-      validPassword : true
+      uniqueUser : false,
+      validPassword : false,
+      allUsers : [],
+      error : "",
+      passwordsMatch : false,
+      success : ""
     };
   }
+
+  componentDidMount() {
+    fetch('/api/User', {
+      method : "GET",
+      credentials: 'include'
+    }).then(( response )=>{
+      return response.json()
+    }).then(( user ) =>{
+      this.usersToState( user )
+    }).catch(err =>{
+      throw err;
+    })
+  }
+
+  usersToState( users ) {
+    for(let i = 0; i < users.length; i++){
+      this.setState({
+        allUsers : this.state.allUsers.concat([users[i].username])
+      })
+    }
+  }
+
 
   handleusernameChange = ( event ) => {
     this.setState({
@@ -39,8 +65,53 @@ class App extends Component {
 
   handleSignInSubmit = ( event ) => {
     event.preventDefault();
-    if(this.state.uniqueUser && this.state.validPassword && this.state.password === this.state.passwordTwo){
+    this.checkUserName();
+    /*if(this.state.uniqueUser && this.state.validPassword && this.state.password === this.state.passwordTwo && this.state.allUsers.indexOf(this.state.username) < 0){
       this.signUp(this.state);
+    }*/
+  }
+
+  checkUserName = () => {
+    if(this.state.allUsers.indexOf(this.state.username) >= 0){
+      this.setState({
+        uniqueUser : false,
+        error : "User Name is Taken"
+      })
+    }
+    else if(this.state.username.length < 8){
+      this.setState({
+        uniqueUser : false,
+        error : "username must be at least 8 characters"
+      })
+    } else {
+      this.setState({
+        uniqueUser : true
+      })
+      this.checkPasswordValidity();
+    }
+  }
+
+  checkPasswordValidity = () => {
+    if(this.state.password !== this.state.passwordTwo){
+      this.setState({
+        passwordsMatch : false,
+        error : "passwords do not match"
+      })
+    }
+    else if(this.state.password === this.state.passwordTwo && this.state.password.length < 8){
+      this.setState({
+        passwordsMatch : false,
+        error : "Password needs to be at least 8 characters"
+      })
+    }
+    else if(this.state.password === this.state.passwordTwo && this.state.password.length >= 8){
+      this.setState({
+        passwordsMatch : true,
+        validPassword : true,
+        error : '',
+        success : "Successful Sign up, sign in"
+      })
+      this.signUp( this.state );
     }
   }
 
@@ -62,6 +133,12 @@ class App extends Component {
           error : error
         });
       })
+  }
+
+  redirectHome = () => {
+    this.setState({
+      signedUp : true
+    })
   }
 
 
@@ -90,6 +167,17 @@ class App extends Component {
               SIGN UP
               </button>
             </form>
+          </div>
+          <div className="sign-in-form">
+            <form onSubmit = {this.redirectHome} >
+              <button className="button" type="submit">
+                SIGN IN
+              </button>
+            </form>
+          </div>
+          <div className="error">
+            {this.state.error}
+            {this.state.success}
           </div>
         </div>
       );

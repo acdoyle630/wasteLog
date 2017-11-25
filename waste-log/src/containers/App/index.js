@@ -45,7 +45,9 @@ class App extends Component {
           })
         }
         else {
-          console.log("LOGIN SUCCESS")
+          this.setState({
+            loggedIn : true
+          })
         }
       })
   }
@@ -101,6 +103,9 @@ class App extends Component {
               LOG IN
               </button>
             </form>
+          </div>
+          <div className="error">
+            {this.state.error}
           </div>
           <div className = "testing">
             <form onSubmit = {this.handleSignUpSubmit} className = "sign-up-form">
