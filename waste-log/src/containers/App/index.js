@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import './styles.css';
 import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
+import { loadCurrentUser, loadUsers } from '../../action';
 
 class App extends Component {
 
@@ -16,6 +17,20 @@ class App extends Component {
       password : "",
       error : ""
     };
+  }
+
+  componentWillMount(){
+    fetch('/api/User', {
+      method : "GET",
+      credentials: 'include'
+    }).then(( response )=>{
+      console.log( response );
+      return response.json()
+    }).then(( users ) =>{
+      //this.props.loadUsers( users )
+    }).catch(err =>{
+      throw err;
+    })
   }
 
   handleSubmit = ( event ) => {
@@ -45,9 +60,10 @@ class App extends Component {
           })
         }
         else {
-          this.setState({
+          this.props.loadCurrentUser( user.username );
+          /*this.setState({
             loggedIn : true
-          })
+          })*/
         }
       })
   }
@@ -73,6 +89,7 @@ class App extends Component {
 
 
   render() {
+    console.log(this.props.currentUser)
     if(this.state.loggedIn === true){
       return(
         <Redirect to={{
@@ -120,4 +137,23 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = ( state ) => {
+  return {
+    currentUser : state.currentUser
+  };
+}
+
+const mapDispatchToProps = ( dispatch, ownProps ) => {
+  return {
+    loadCurrentUser : user => {
+      dispatch( loadCurrentUser ( user ))
+    }
+  }
+}
+
+const ConnectedApp = connect(
+  mapStateToProps,
+  mapDispatchToProps
+  )(App);
+
+export default ConnectedApp;

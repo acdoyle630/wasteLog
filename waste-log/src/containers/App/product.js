@@ -12,9 +12,27 @@ class App extends Component {
 
     this.state = {
       productName : "",
-      returnHome : false
+      category : "",
+      price : "",
+      unit : "",
+      user_id : null,
+      returnHome : false,
+      allProducts : []
     };
 
+  }
+
+  componentDidMount() {
+    fetch('/api/Product', {
+      method : "GET",
+      credentials: 'include'
+    }).then(( response )=>{
+      return response.json()
+    }).then(( product ) =>{
+      console.log( product )
+    }).catch(err =>{
+      throw err;
+    })
   }
 
   handleProductNameChange = ( event ) => {
