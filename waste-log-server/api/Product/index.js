@@ -6,8 +6,7 @@ const db = require('../../models');
 const { Product } = db;
 
 product.post('/', ( req, res ) => {
-  console.log('hitting product api');
-  console.log(req.body);
+  console.log(req.user);
   Product.create( req.body )
   .then(product =>{
     res.json( product );
