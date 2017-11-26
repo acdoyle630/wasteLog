@@ -39,10 +39,13 @@ class ProductApp extends Component {
     })
   }
 
+
   saveToState( products ){
      for(let i = 0; i<products.length; i++){
        this.setState({
+        //no more all products in state
          allProducts : this.state.allProducts.concat([products[i]]),
+         //all product names should be in relation to redux not local state
          allProductNames : this.state.allProductNames.concat([products[i].productName])
        })
      }
@@ -78,7 +81,7 @@ class ProductApp extends Component {
   }
 
   addProduct( product ){
-    if(this.state.validProduct === true){
+    console.log('adding product')
         return fetch('/api/product', {
           method: "POST",
           credentials : "include",
@@ -88,11 +91,13 @@ class ProductApp extends Component {
             "Accept": "application/json"
           },
           body : JSON.stringify( product )
+          }).then(( response ) => {
+            return(response.json())
+          }).then((data) => {
+            this.props.loadProducts(this.props.products.concat(data))
           }).catch(err =>{
           throw err;
         })
-        this.saveToState( product )
-      }
     }
 
   redirectHome = ( event ) => {
@@ -145,7 +150,7 @@ class ProductApp extends Component {
 
   render() {
 
-    console.log(this.props.products)
+    console.log(this.props.products);
 
     if(this.state.returnHome === true){
       return(

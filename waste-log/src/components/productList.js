@@ -37,7 +37,6 @@ class ProductList extends Component {
   }
 
    render() {
-    console.log(this.state.allProducts)
     return(
       <div className="product-list">
         <h2>

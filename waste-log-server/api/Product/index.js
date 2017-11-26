@@ -23,7 +23,6 @@ product.post('/', ( req, res ) => {
 });
 
 product.get('/', (req, res) => {
-  console.log('hit product api');
   Product.all( { raw: true } )
   .then((products) =>{
     res.json(products);
