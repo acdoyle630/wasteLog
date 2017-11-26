@@ -20,7 +20,6 @@ class ProductApp extends Component {
       error : "",
       returnHome : false,
       showProducts : false,
-      allProducts : [],
       allProductNames : [],
       validProduct : false
     };
@@ -36,19 +35,17 @@ class ProductApp extends Component {
       this.props.loadProducts( products )
     }).catch(err =>{
       throw err;
+    }).then(() => {
+     for(let i = 0; i<this.props.products.length; i++){
+       this.setState({
+         allProductNames : this.state.allProductNames.concat([this.props.products[i].productName])
+       })
+     }
     })
   }
 
 
   saveToState( products ){
-     for(let i = 0; i<products.length; i++){
-       this.setState({
-        //no more all products in state
-         allProducts : this.state.allProducts.concat([products[i]]),
-         //all product names should be in relation to redux not local state
-         allProductNames : this.state.allProductNames.concat([products[i].productName])
-       })
-     }
    }
 
   handleProductNameChange = ( event ) => {
@@ -81,7 +78,6 @@ class ProductApp extends Component {
   }
 
   addProduct( product ){
-    console.log('adding product')
         return fetch('/api/product', {
           method: "POST",
           credentials : "include",
@@ -95,6 +91,9 @@ class ProductApp extends Component {
             return(response.json())
           }).then((data) => {
             this.props.loadProducts(this.props.products.concat(data))
+            this.setState({
+              allProductNames : this.state.allProductNames.concat([data.productName])
+            })
           }).catch(err =>{
           throw err;
         })
@@ -121,6 +120,7 @@ class ProductApp extends Component {
   }
 
   verifyProduct( product ){
+    console.log('verifying?')
     if( this.state.allProductNames.indexOf(product.productName) > -1){
       this.setState({
         error : 'PRODUCT NAME ALREADY USED',
@@ -149,9 +149,6 @@ class ProductApp extends Component {
   }
 
   render() {
-
-    console.log(this.props.products);
-
     if(this.state.returnHome === true){
       return(
         <Redirect to={{
