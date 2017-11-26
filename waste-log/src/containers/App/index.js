@@ -24,7 +24,6 @@ class App extends Component {
       method : "GET",
       credentials: 'include'
     }).then(( response )=>{
-      console.log( response );
       return response.json()
     }).then(( users ) =>{
       //this.props.loadUsers( users )
@@ -61,9 +60,9 @@ class App extends Component {
         }
         else {
           this.props.loadCurrentUser( user.username );
-          /*this.setState({
+          this.setState({
             loggedIn : true
-          })*/
+          })
         }
       })
   }
@@ -89,6 +88,7 @@ class App extends Component {
 
 
   render() {
+    console.log(`THIS.STATE: ${this.state}`)
     console.log(this.props.currentUser)
     if(this.state.loggedIn === true){
       return(

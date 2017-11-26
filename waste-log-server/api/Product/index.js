@@ -7,13 +7,29 @@ const { Product } = db;
 
 product.post('/', ( req, res ) => {
   console.log(req.user);
-  Product.create( req.body )
+  console.log(req.body);
+  Product.create(
+    {
+      productName: req.body.productName,
+      productCategory : req.body.productCategory,
+      productPrice : req.body.productPrice,
+      productUnit : req.body.productUnit,
+      user_id : req.user.id
+    } )
   .then(product =>{
     res.json( product );
   })
     .catch( err => {
       res.json( err );
     });
+});
+
+product.get('/', (req, res) => {
+  console.log('hit product api');
+  Product.all( { raw: true } )
+  .then((products) =>{
+    res.json(products);
+  });
 });
 
 

@@ -12,10 +12,10 @@ class App extends Component {
 
     this.state = {
       productName : "",
-      category : "",
-      price : "",
-      unit : "",
-      user_id : null,
+      productCategory : "",
+      productPrice : 0.00,
+      productUnit : "",
+      //user_id : 1,
       returnHome : false,
       allProducts : []
     };
@@ -41,10 +41,31 @@ class App extends Component {
     })
   }
 
+   handleProductCategoryChange = ( event ) => {
+    this.setState({
+      productCategory : event.target.value
+    })
+  }
+
+  handleProductUnitChange = ( event ) => {
+    this.setState({
+      productUnit : event.target.value
+    })
+  }
+
+   handleProductPriceChange = ( event ) => {
+    this.setState({
+      productPrice : Number(event.target.value)
+    })
+  }
+
+
   handleSubmit = ( event ) => {
     event.preventDefault();
     this.addProduct(this.state)
   }
+
+
 
   addProduct( product ){
     console.log( product );
@@ -84,6 +105,9 @@ class App extends Component {
         <div className = "testing">
           <form onSubmit = {this.handleSubmit} className = "product-post-form">
             <input className = "product-name" type = "text" placeholder = "Product Name" value = {this.productName} onChange = {this.handleProductNameChange} />
+            <input className = "product-category" type = "text" placeholder = "Product Category" value = {this.productCategory} onChange = {this.handleProductCategoryChange} />
+            <input className = "product-price" type = "decimal" placeholder = "Product Price" value = {this.productPrice} onChange = {this.handleProductPriceChange} />
+            <input className = "product-unit" type = "text" placeholder = "Unit" value = {this.productUnit} onChange = {this.handleProductUnitChange} />
             <button className = "button" type = "submit">
             Add Product
             </button>

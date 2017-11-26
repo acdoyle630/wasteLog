@@ -1,7 +1,4 @@
 /*jshint esversion: 6*/
-const express = require('express');
-const router = express.Router();
-
 
 module.exports = function(sequelize, DataTypes) {
   var Product = sequelize.define("Product", {
@@ -10,30 +7,23 @@ module.exports = function(sequelize, DataTypes) {
       type : DataTypes.STRING,
       allowNull: false
     },
-    category : {
+    productCategory : {
+      type : DataTypes.STRING,
+      allowNull : true
+    },
+    productPrice : {
+      type : DataTypes.DECIMAL,
+      allowNull : false
+    },
+    productUnit : {
       type : DataTypes.STRING,
       allowNull : false
     },
-    price : {
-      type : DataTypes.SMALLINT,
-      allowNull : false
-    },
-    unit : {
-      type : DataTypes.STRING,
+    user_id : {
+      type : DataTypes.INTEGER,
       allowNull : false
     }
 
-  }, {
-    classMethods : {
-      associate : function( models ) {
-        Product.belongsTo(models.User, {
-          foreignKey : {
-            name : 'user_id',
-            allowNull : false
-          }
-        });
-      }
-    }
   });
   return Product;
 };
