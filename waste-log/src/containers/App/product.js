@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import './styles.css';
 import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
+import ProductList from '../../components/productList';
 
 
 class App extends Component {
@@ -15,11 +16,10 @@ class App extends Component {
       productCategory : "",
       productPrice : 0.00,
       productUnit : "",
-      //user_id : 1,
       returnHome : false,
+      showProducts : false,
       allProducts : []
     };
-
   }
 
   componentDidMount() {
@@ -29,11 +29,19 @@ class App extends Component {
     }).then(( response )=>{
       return response.json()
     }).then(( product ) =>{
-      console.log( product )
+      this.saveToState( product )
     }).catch(err =>{
       throw err;
     })
   }
+
+  saveToState( products ){
+     for(let i = 0; i<products.length; i++){
+       this.setState({
+         allProducts : this.state.allProducts.concat([products[i]])
+       })
+     }
+   }
 
   handleProductNameChange = ( event ) => {
     this.setState({
@@ -59,16 +67,12 @@ class App extends Component {
     })
   }
 
-
   handleSubmit = ( event ) => {
     event.preventDefault();
     this.addProduct(this.state)
   }
 
-
-
   addProduct( product ){
-    console.log( product );
     return fetch('/api/product', {
       method: "POST",
       credentials : "include",
@@ -78,7 +82,11 @@ class App extends Component {
         "Accept": "application/json"
       },
       body : JSON.stringify( product )
-    });
+    }).then(( product ) => {
+      this.setState( product )
+    }).catch(err =>{
+      throw err;
+    })
   }
 
   redirectHome = ( event ) => {
@@ -88,12 +96,59 @@ class App extends Component {
     });
   }
 
+  showOrHideProducts = () =>{
+    if(this.state.showProducts === true){
+      this.setState({
+        showProducts : false
+      })
+    }
+    else if(this.state.showProducts === false){
+      this.setState({
+        showProducts : true
+      })
+    }
+  }
+
   render() {
     if(this.state.returnHome === true){
       return(
         <Redirect to={{
           pathname : '/'
         }} />
+        )
+    }
+
+    if(this.state.showProducts === false){
+      return(
+        <div className="App">
+        <header className="App-header">
+          <img src={logo} className="App-logo" alt="logo" />
+          <h1 className="App-title">Waste-Log</h1>
+        </header>
+        <div className = "testing">
+          <form onSubmit = {this.handleSubmit} className = "product-post-form">
+            <input className = "product-name" type = "text" placeholder = "Product Name" value = {this.productName} onChange = {this.handleProductNameChange} />
+            <input className = "product-category" type = "text" placeholder = "Product Category" value = {this.productCategory} onChange = {this.handleProductCategoryChange} />
+            <input className = "product-price" type = "decimal" placeholder = "Product Price" value = {this.productPrice} onChange = {this.handleProductPriceChange} />
+            <input className = "product-unit" type = "text" placeholder = "Unit" value = {this.productUnit} onChange = {this.handleProductUnitChange} />
+            <button className = "button" type = "submit">
+            Add Product
+            </button>
+          </form>
+        </div>
+        <div className="Return Home">
+          <form onSubmit={this.redirectHome}>
+            <button className = "button" type = "submit">
+              RETURN HOME
+            </button>
+          </form>
+        </div>
+        <div className="all-products">
+          <button className="button" onClick={this.showOrHideProducts}>
+            SHOW ALL PRODUCTS
+          </button>
+        </div>
+      </div>
         )
     }
     return (
@@ -119,6 +174,12 @@ class App extends Component {
               RETURN HOME
             </button>
           </form>
+        </div>
+        <div className="all-products">
+          <button className="button" onClick={this.showOrHideProducts}>
+            HIDE ALL PRODUCTS
+          </button>
+          <ProductList product={this.state.allProducts} />
         </div>
       </div>
     );

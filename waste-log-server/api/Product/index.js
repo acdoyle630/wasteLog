@@ -6,8 +6,6 @@ const db = require('../../models');
 const { Product } = db;
 
 product.post('/', ( req, res ) => {
-  console.log(req.user);
-  console.log(req.body);
   Product.create(
     {
       productName: req.body.productName,
