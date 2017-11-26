@@ -3,7 +3,9 @@
 import {combineReducers} from 'redux';
 
 import currentUser from './currentUser';
+import products from './products';
 
 export default combineReducers({
-  currentUser
+  currentUser,
+  products
 });

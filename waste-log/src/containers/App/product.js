@@ -3,10 +3,11 @@ import logo from './logo.svg';
 import './styles.css';
 import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
+import { loadProducts } from '../../action'
 import ProductList from '../../components/productList';
 
 
-class App extends Component {
+class ProductApp extends Component {
 
   constructor(props){
     super(props);
@@ -16,9 +17,12 @@ class App extends Component {
       productCategory : "",
       productPrice : 0.00,
       productUnit : "",
+      error : "",
       returnHome : false,
       showProducts : false,
-      allProducts : []
+      allProducts : [],
+      allProductNames : [],
+      validProduct : false
     };
   }
 
@@ -28,8 +32,8 @@ class App extends Component {
       credentials: 'include'
     }).then(( response )=>{
       return response.json()
-    }).then(( product ) =>{
-      this.saveToState( product )
+    }).then(( products ) =>{
+      this.props.loadProducts( products )
     }).catch(err =>{
       throw err;
     })
@@ -38,7 +42,8 @@ class App extends Component {
   saveToState( products ){
      for(let i = 0; i<products.length; i++){
        this.setState({
-         allProducts : this.state.allProducts.concat([products[i]])
+         allProducts : this.state.allProducts.concat([products[i]]),
+         allProductNames : this.state.allProductNames.concat([products[i].productName])
        })
      }
    }
@@ -69,25 +74,26 @@ class App extends Component {
 
   handleSubmit = ( event ) => {
     event.preventDefault();
-    this.addProduct(this.state)
+    this.verifyProduct(this.state)
   }
 
   addProduct( product ){
-    return fetch('/api/product', {
-      method: "POST",
-      credentials : "include",
-      headers :
-      {
-        "Content-Type": "application/json",
-        "Accept": "application/json"
-      },
-      body : JSON.stringify( product )
-    }).then(( product ) => {
-      this.setState( product )
-    }).catch(err =>{
-      throw err;
-    })
-  }
+    if(this.state.validProduct === true){
+        return fetch('/api/product', {
+          method: "POST",
+          credentials : "include",
+          headers :
+          {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          body : JSON.stringify( product )
+          }).catch(err =>{
+          throw err;
+        })
+        this.saveToState( product )
+      }
+    }
 
   redirectHome = ( event ) => {
     event.preventDefault();
@@ -109,7 +115,38 @@ class App extends Component {
     }
   }
 
+  verifyProduct( product ){
+    if( this.state.allProductNames.indexOf(product.productName) > -1){
+      this.setState({
+        error : 'PRODUCT NAME ALREADY USED',
+        validProduct : false
+      })
+    }
+    else if( this.state.productCategory === ''){
+      this.setState({
+        error : 'MUST CHOOSE CATEGORY',
+        validProduct : false
+      })
+    }
+    else if( this.state.productUnit === ''){
+      this.setState({
+        error : 'MUST CHOOSE UNIT',
+        validProduct : false
+      })
+    }
+    else{
+      this.setState({
+        error: '',
+        validProduct : true
+      })
+    this.addProduct( product );
+    }
+  }
+
   render() {
+
+    console.log(this.props.products)
+
     if(this.state.returnHome === true){
       return(
         <Redirect to={{
@@ -135,6 +172,9 @@ class App extends Component {
             Add Product
             </button>
           </form>
+        </div>
+        <div className="error">
+          {this.state.error}
         </div>
         <div className="Return Home">
           <form onSubmit={this.redirectHome}>
@@ -168,6 +208,9 @@ class App extends Component {
             </button>
           </form>
         </div>
+        <div className="error">
+          {this.state.error}
+        </div>
         <div className="Return Home">
           <form onSubmit={this.redirectHome}>
             <button className = "button" type = "submit">
@@ -186,4 +229,23 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = (state) =>{
+  return {
+    products : state.products
+  };
+}
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    loadProducts : products => {
+      dispatch(loadProducts(products))
+    }
+  }
+}
+
+const ConnectedProductApp = connect(
+  mapStateToProps,
+  mapDispatchToProps
+  )(ProductApp);
+
+export default ConnectedProductApp;
