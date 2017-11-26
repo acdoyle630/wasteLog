@@ -78,6 +78,7 @@ class ProductApp extends Component {
   }
 
   addProduct( product ){
+    console.log('hitting add product')
         return fetch('/api/product', {
           method: "POST",
           credentials : "include",
@@ -91,9 +92,9 @@ class ProductApp extends Component {
             return(response.json())
           }).then((data) => {
             this.props.loadProducts(this.props.products.concat(data))
-            this.setState({
-              allProductNames : this.state.allProductNames.concat([data.productName])
-            })
+            //this.setState({
+              //allProductNames : this.state.allProductNames.concat([data.productName])
+            //})
           }).catch(err =>{
           throw err;
         })
@@ -101,9 +102,19 @@ class ProductApp extends Component {
 
   redirectHome = ( event ) => {
     event.preventDefault();
-    this.setState({
-      returnHome : true
-    });
+    fetch('/logout', {
+            method: "GET",
+            credentials : "include",
+            headers :
+            {
+              "Content-Type": "application/json",
+              "Accept": "application/json"
+            }
+          }).then(() => {
+            this.setState({
+              returnHome : true
+            });
+          })
   }
 
   showOrHideProducts = () =>{
@@ -140,16 +151,28 @@ class ProductApp extends Component {
       })
     }
     else{
+      console.log('NO ERRORS SHOULD ADD PRODUCT')
       this.setState({
         error: '',
         validProduct : true
       })
     this.addProduct( product );
+    //this.clearState();
     }
   }
 
+  clearState = () => {
+    this.setState({
+      productName : "",
+      productCategory : "",
+      productPrice : "",
+      productCategory : ""
+    })
+  }
+
   render() {
-    if(this.state.returnHome === true){
+    console.log(this.props.currentUser)
+    if(this.state.returnHome === true || this.props.currentUser === ''){
       return(
         <Redirect to={{
           pathname : '/'
@@ -163,6 +186,9 @@ class ProductApp extends Component {
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Waste-Log</h1>
+          <h2 className="current-user">
+            {this.props.currentUser}
+          </h2>
         </header>
         <div className = "testing">
           <form onSubmit = {this.handleSubmit} className = "product-post-form">
@@ -233,7 +259,8 @@ class ProductApp extends Component {
 
 const mapStateToProps = (state) =>{
   return {
-    products : state.products
+    products : state.products,
+    currentUser : state.currentUser
   };
 }
 
