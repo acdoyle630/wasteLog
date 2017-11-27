@@ -25,7 +25,11 @@ product.post('/', ( req, res ) => {
 });
 
 product.get('/', (req, res) => {
-  Product.all( { raw: true } )
+  Product.all( { raw: true,
+    where: {
+      user_id : req.user.id
+    }
+  })
   .then((products) =>{
     res.json(products);
   });

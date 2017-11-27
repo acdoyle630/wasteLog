@@ -171,7 +171,6 @@ class ProductApp extends Component {
   }
 
   render() {
-    console.log(this.props.currentUser)
     if(this.state.returnHome === true || this.props.currentUser === ''){
       return(
         <Redirect to={{
@@ -224,6 +223,9 @@ class ProductApp extends Component {
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Waste-Log</h1>
+          <h2 className="current-user">
+            {this.props.currentUser}
+          </h2>
         </header>
         <div className = "testing">
           <form onSubmit = {this.handleSubmit} className = "product-post-form">
