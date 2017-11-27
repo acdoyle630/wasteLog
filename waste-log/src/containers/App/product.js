@@ -15,7 +15,7 @@ class ProductApp extends Component {
     this.state = {
       productName : "",
       productCategory : "",
-      productPrice : 0.00,
+      productPrice : "",
       productUnit : "",
       error : "",
       returnHome : false,
@@ -95,6 +95,7 @@ class ProductApp extends Component {
             this.setState({
               allProductNames : this.state.allProductNames.concat([data.productName])
             })
+            this.clearState();
           }).catch(err =>{
           throw err;
         })
@@ -162,12 +163,15 @@ class ProductApp extends Component {
   }
 
   clearState = () => {
+    console.log('clearing State')
     this.setState({
       productName : "",
       productCategory : "",
       productPrice : "",
-      productCategory : ""
+      productCategory : "",
+      productUnit: ""
     })
+    console.log(this.state)
   }
 
   render() {
@@ -192,10 +196,10 @@ class ProductApp extends Component {
         </header>
         <div className = "testing">
           <form onSubmit = {this.handleSubmit} className = "product-post-form">
-            <input className = "product-name" type = "text" placeholder = "Product Name" value = {this.productName} onChange = {this.handleProductNameChange} />
-            <input className = "product-category" type = "text" placeholder = "Product Category" value = {this.productCategory} onChange = {this.handleProductCategoryChange} />
-            <input className = "product-price" type = "decimal" placeholder = "Product Price" value = {this.productPrice} onChange = {this.handleProductPriceChange} />
-            <input className = "product-unit" type = "text" placeholder = "Unit" value = {this.productUnit} onChange = {this.handleProductUnitChange} />
+            <input className = "product-name" type = "text" placeholder = "Product Name" value = {this.state.productName} onChange = {this.handleProductNameChange} />
+            <input className = "product-category" type = "text" placeholder = "Product Category" value = {this.state.productCategory} onChange = {this.handleProductCategoryChange} />
+            <input className = "product-price" type = "decimal" placeholder = "Product Price" value = {this.state.productPrice} onChange = {this.handleProductPriceChange} />
+            <input className = "product-unit" type = "text" placeholder = "Unit" value = {this.state.productUnit} onChange = {this.handleProductUnitChange} />
             <button className = "button" type = "submit">
             Add Product
             </button>
@@ -230,10 +234,10 @@ class ProductApp extends Component {
         </header>
         <div className = "testing">
           <form onSubmit = {this.handleSubmit} className = "product-post-form">
-            <input className = "product-name" type = "text" placeholder = "Product Name" value = {this.productName} onChange = {this.handleProductNameChange} />
-            <input className = "product-category" type = "text" placeholder = "Product Category" value = {this.productCategory} onChange = {this.handleProductCategoryChange} />
-            <input className = "product-price" type = "decimal" placeholder = "Product Price" value = {this.productPrice} onChange = {this.handleProductPriceChange} />
-            <input className = "product-unit" type = "text" placeholder = "Unit" value = {this.productUnit} onChange = {this.handleProductUnitChange} />
+            <input className = "product-name" type = "text" placeholder = "Product Name" value = {this.state.productName} onChange = {this.handleProductNameChange} />
+            <input className = "product-category" type = "text" placeholder = "Product Category" value = {this.state.productCategory} onChange = {this.handleProductCategoryChange} />
+            <input className = "product-price" type = "decimal" placeholder = "Product Price" value = {this.state.productPrice} onChange = {this.handleProductPriceChange} />
+            <input className = "product-unit" type = "text" placeholder = "Unit" value = {this.state.productUnit} onChange = {this.handleProductUnitChange} />
             <button className = "button" type = "submit">
             Add Product
             </button>
