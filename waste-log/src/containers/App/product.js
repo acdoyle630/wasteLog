@@ -92,9 +92,9 @@ class ProductApp extends Component {
             return(response.json())
           }).then((data) => {
             this.props.loadProducts(this.props.products.concat(data))
-            //this.setState({
-              //allProductNames : this.state.allProductNames.concat([data.productName])
-            //})
+            this.setState({
+              allProductNames : this.state.allProductNames.concat([data.productName])
+            })
           }).catch(err =>{
           throw err;
         })
@@ -171,6 +171,7 @@ class ProductApp extends Component {
   }
 
   render() {
+    console.log(this.props.products)
     if(this.state.returnHome === true || this.props.currentUser === ''){
       return(
         <Redirect to={{
