@@ -4,6 +4,7 @@
 import React,{Component} from 'react';
 import ProductEdit from './productEdit';
 import { connect } from 'react-redux'
+import { loadCurrentProduct } from '../action'
 
 
 class ProductListApp extends Component {
@@ -12,48 +13,41 @@ class ProductListApp extends Component {
     super(props);
 
     this.state = {
-      allProducts : [],
       currentId : null
     }
 
   }
 
-  componentWillMount() {
-    fetch('/api/Product', {
-      method: "GET",
-      credentials : 'include'
-    }).then((response) =>{
-      return response.json()
-    }).then(( products ) =>{
-      this.saveToState( products )
-    }).catch(err =>{
-      throw err;
-    })
+
+  editProduct = ( event ) =>{
+    // this.setState({
+    //   currentId : event.target.value
+    // })
+    //find current id within props.products
+    this.findCurrentProductObject(event.target.value);
   }
 
-  saveToState( products ){
-    for(let i = 0; i<products.length; i++){
-      this.setState({
-        allProducts : this.state.allProducts.concat([products[i]])
-      })
+  findCurrentProductObject(productId){
+    //console.log(productId)
+    //console.log(this.props.products)
+    for(let i = 0; i<this.props.products.length; i++){
+      //console.log('enter loop')
+      //console.log( this.props.products[i])
+      if(this.props.products[i].id === Number(productId)){
+        this.props.loadCurrentProduct(this.props.products[i])
+      }
     }
   }
 
-  editProduct = ( event ) =>{
-    this.setState({
-      currentId : event.target.value
-    })
-  }
-
    render() {
-    console.log(this.props.products)
+    console.log(this.props.currentProduct)
     return(
       <div className="product-list">
         <h2>
           ALL PRODUCTS
         </h2>
         <div className="edit-page">
-          {this.state.currentId}
+          {this.props.currentProduct.productName}
         </div>
         <ul>
           {
@@ -75,12 +69,22 @@ class ProductListApp extends Component {
 const mapStateToProps = (state) =>{
   return {
     products : state.products,
-    currentUser : state.currentUser
+    currentUser : state.currentUser,
+    currentProduct : state.currentProduct
   };
+}
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    loadCurrentProduct: currentProduct =>{
+      dispatch(loadCurrentProduct(currentProduct))
+    }
+  }
 }
 
 const ConnectedProductListApp = connect(
   mapStateToProps,
+  mapDispatchToProps
   )(ProductListApp);
 
 export default ConnectedProductListApp;
