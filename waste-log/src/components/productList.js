@@ -13,7 +13,8 @@ class ProductListApp extends Component {
     super(props);
 
     this.state = {
-      currentId : null
+      currentId : null,
+      showForm : false
     }
 
   }
@@ -35,34 +36,64 @@ class ProductListApp extends Component {
       //console.log( this.props.products[i])
       if(this.props.products[i].id === Number(productId)){
         this.props.loadCurrentProduct(this.props.products[i])
+        this.setState({
+          showForm : true
+        })
       }
     }
   }
 
    render() {
+    console.log( this.state)
     console.log(this.props.currentProduct)
-    return(
-      <div className="product-list">
-        <h2>
-          ALL PRODUCTS
-        </h2>
-        <div className="edit-page">
-          {this.props.currentProduct.productName}
+    if(this.state.showForm === false){
+      return(
+        <div className="product-list">
+          <h2>
+            ALL PRODUCTS
+          </h2>
+          <div className="edit-page">
+            {this.props.currentProduct.productName}
+          </div>
+          <ul>
+            {
+               this.props.products.map((products) =>
+                <li className="event" key={products.id}>
+                  <h3>{products.productName}</h3>
+                  <button value={products.id} onClick={this.editProduct}>
+                    EDIT
+                  </button>
+                </li>
+                )
+            }
+          </ul>
         </div>
-        <ul>
-          {
-             this.props.products.map((products) =>
-              <li className="event" key={products.id}>
-                <h3>{products.productName}</h3>
-                <button value={products.id} onClick={this.editProduct}>
-                  EDIT
-                </button>
-              </li>
-              )
-          }
-        </ul>
-      </div>
-      )
+        )
+      }
+    if(this.state.showForm === true){
+      return(
+        <div className="product-list">
+          <h2>
+            ALL PRODUCTS
+          </h2>
+          <div className="edit-page">
+            <ProductEdit />
+          </div>
+          <ul>
+            {
+               this.props.products.map((products) =>
+                <li className="event" key={products.id}>
+                  <h3>{products.productName}</h3>
+                  <button value={products.id} onClick={this.editProduct}>
+                    EDIT
+                  </button>
+                </li>
+                )
+            }
+          </ul>
+        </div>
+        )
+      }
    }
 }
 
