@@ -211,7 +211,7 @@ class ProductApp extends Component {
         <div className="Return Home">
           <form onSubmit={this.redirectHome}>
             <button className = "button" type = "submit">
-              RETURN HOME
+              LOG OUT
             </button>
           </form>
         </div>
@@ -249,7 +249,7 @@ class ProductApp extends Component {
         <div className="Return Home">
           <form onSubmit={this.redirectHome}>
             <button className = "button" type = "submit">
-              RETURN HOME
+              LOG OUT
             </button>
           </form>
         </div>

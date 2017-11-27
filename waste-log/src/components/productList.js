@@ -2,15 +2,18 @@
 
 
 import React,{Component} from 'react';
+import ProductEdit from './productEdit';
+import { connect } from 'react-redux'
 
 
-class ProductList extends Component {
+class ProductListApp extends Component {
   constructor(props) {
 
     super(props);
 
     this.state = {
-      allProducts : []
+      allProducts : [],
+      currentId : null
     }
 
   }
@@ -36,17 +39,30 @@ class ProductList extends Component {
     }
   }
 
+  editProduct = ( event ) =>{
+    this.setState({
+      currentId : event.target.value
+    })
+  }
+
    render() {
+    console.log(this.props.products)
     return(
       <div className="product-list">
         <h2>
           ALL PRODUCTS
         </h2>
+        <div className="edit-page">
+          {this.state.currentId}
+        </div>
         <ul>
           {
-             this.state.allProducts.map((products) =>
+             this.props.products.map((products) =>
               <li className="event" key={products.id}>
                 <h3>{products.productName}</h3>
+                <button value={products.id} onClick={this.editProduct}>
+                  EDIT
+                </button>
               </li>
               )
           }
@@ -56,4 +72,16 @@ class ProductList extends Component {
    }
 }
 
-export default ProductList;
+const mapStateToProps = (state) =>{
+  return {
+    products : state.products,
+    currentUser : state.currentUser
+  };
+}
+
+const ConnectedProductListApp = connect(
+  mapStateToProps,
+  )(ProductListApp);
+
+export default ConnectedProductListApp;
+
