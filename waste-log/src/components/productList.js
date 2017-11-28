@@ -44,17 +44,13 @@ class ProductListApp extends Component {
   }
 
    render() {
-    console.log( this.state)
-    console.log(this.props.currentProduct)
     if(this.state.showForm === false){
       return(
         <div className="product-list">
           <h2>
             ALL PRODUCTS
           </h2>
-          <div className="edit-page">
-            {this.props.currentProduct.productName}
-          </div>
+
           <ul>
             {
                this.props.products.map((products) =>

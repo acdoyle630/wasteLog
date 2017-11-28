@@ -35,6 +35,25 @@ product.get('/', (req, res) => {
   });
 });
 
+product.put('/:id', (req,res) => {
+  let path = req.path.split('/')[1];
+  console.log(path)
+  Product.update({
+    productName: req.body.productName,
+    productCategory: req.body.productCategory,
+    productUnit: req.body.productUnit,
+    productPrice: req.body.productPrice,
+  },  {
+      where: {
+        id: path
+      }
+    })
+    .then(data => {
+      //console.log('wat'+data);
+      res.send('posted');
+    });
+});
+
 
 
 
