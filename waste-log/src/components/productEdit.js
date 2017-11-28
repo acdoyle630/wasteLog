@@ -19,9 +19,21 @@ class ProductEditApp extends Component {
       productPrice : this.props.currentProduct.productPrice,
       productUnit : this.props.currentProduct.productUnit,
       id : this.props.currentProduct.id,
-      showForm : this.props.showForm
+      showForm : null
     }
 
+  }
+
+  componentWillMount = () =>{
+    console.log("mounting")
+    this.setState({
+      productName : this.props.currentProduct.productName,
+      productCategory : this.props.currentProduct.productCategory,
+      productPrice : this.props.currentProduct.productPrice,
+      productUnit : this.props.currentProduct.productUnit,
+      id : this.props.currentProduct.id,
+      showForm : null
+    })
   }
 
   handleProductNameChange = ( event ) => {
@@ -92,13 +104,26 @@ class ProductEditApp extends Component {
     })
   }
 
+  setProductStateToMatchProps(){
+    this.setState({
+      productName : this.props.currentProduct.productName,
+      productCategory : this.props.currentProduct.productCategory,
+      productPrice : this.props.currentProduct.productPrice,
+      productUnit : this.props.currentProduct.productUnit,
+      id : this.props.currentProduct.id,
+      showForm : null
+    })
+  }
+
 
    render() {
-    console.log(this.props.showForm)
-    console.log(this.state.showForm)
+    if(this.props.currentProduct.productName !== this.state.productName){
+      this.setProductStateToMatchProps()
+    }
+    console.log(this.props.currentProduct)
+    console.log(this.state)
 
       if(this.state.showForm === this.props.showForm){
-        console.log('go home')
       return(
         <Redirect to={{
           pathname : "/product"

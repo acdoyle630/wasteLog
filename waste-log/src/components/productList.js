@@ -73,7 +73,7 @@ class ProductListApp extends Component {
             ALL PRODUCTS
           </h2>
           <div className="edit-page">
-            <ProductEdit showForm = {Math.floor(Math.random() * 10)} />
+            <ProductEdit showForm = {Math.floor(Math.random() * 1000)} />
           </div>
           <ul>
             {
