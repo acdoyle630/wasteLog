@@ -21,19 +21,11 @@ class ProductListApp extends Component {
 
 
   editProduct = ( event ) =>{
-    // this.setState({
-    //   currentId : event.target.value
-    // })
-    //find current id within props.products
     this.findCurrentProductObject(event.target.value);
   }
 
   findCurrentProductObject(productId){
-    //console.log(productId)
-    //console.log(this.props.products)
     for(let i = 0; i<this.props.products.length; i++){
-      //console.log('enter loop')
-      //console.log( this.props.products[i])
       if(this.props.products[i].id === Number(productId)){
         this.props.loadCurrentProduct(this.props.products[i])
         this.setState({

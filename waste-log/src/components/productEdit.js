@@ -24,18 +24,6 @@ class ProductEditApp extends Component {
 
   }
 
-  componentWillMount = () =>{
-    console.log("mounting")
-    this.setState({
-      productName : this.props.currentProduct.productName,
-      productCategory : this.props.currentProduct.productCategory,
-      productPrice : this.props.currentProduct.productPrice,
-      productUnit : this.props.currentProduct.productUnit,
-      id : this.props.currentProduct.id,
-      showForm : null
-    })
-  }
-
   handleProductNameChange = ( event ) => {
     this.setState({
       productName : event.target.value
@@ -88,13 +76,13 @@ class ProductEditApp extends Component {
     this.updateAllProducts();
   }
 
-  updateAllProducts = () =>{
+  updateAllProducts = ( command ) =>{
     let updatedStoreArray = [];
     for(let i = 0; i<this.props.products.length; i++){
       if( this.props.products[i].id !== this.props.currentProduct.id){
         updatedStoreArray.push(this.props.products[i])
       }
-      if( this.props.products[i].id === this.props.currentProduct.id){
+      if( this.props.products[i].id === this.props.currentProduct.id && command !== 'delete'){
         updatedStoreArray.push(this.props.currentProduct)
       }
     }
@@ -115,13 +103,29 @@ class ProductEditApp extends Component {
     })
   }
 
+  deleteProduct = ( event ) =>{
+    event.preventDefault()
+    return fetch(`/api/product/${this.state.id}`, {
+        method: "DELETE",
+        credentials: 'include',
+         headers:
+        {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body : JSON.stringify(this.state)
+      }).then((response) =>{
+          this.updateAllProducts('delete')
+      }).catch(err =>{
+        throw err;
+      })
+  }
+
 
    render() {
-    if(this.props.currentProduct.productName !== this.state.productName){
+    if(this.props.currentProduct.id !== this.state.id){
       this.setProductStateToMatchProps()
     }
-    console.log(this.props.currentProduct)
-    console.log(this.state)
 
       if(this.state.showForm === this.props.showForm){
       return(
@@ -166,6 +170,9 @@ class ProductEditApp extends Component {
           </div>
             <button className = "button" type = "submit">
             EDIT PRODUCT
+            </button>
+            <button onClick={this.deleteProduct}>
+              DELETE PRODUCT
             </button>
         </form>
       </div>

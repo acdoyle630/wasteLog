@@ -37,7 +37,6 @@ product.get('/', (req, res) => {
 
 product.put('/:id', (req,res) => {
   let path = req.path.split('/')[1];
-  console.log(path)
   Product.update({
     productName: req.body.productName,
     productCategory: req.body.productCategory,
@@ -52,6 +51,21 @@ product.put('/:id', (req,res) => {
       //console.log('wat'+data);
       res.send('posted');
     });
+});
+
+product.delete('/:id', ( req, res ) => {
+  let path = req.path.split('/')[1];
+  Product.destroy({
+    where: {
+      id: path
+    }
+  } )
+  .then( product => {
+    res.json( product );
+  })
+  .catch( err => {
+    res.json( err );
+  });
 });
 
 

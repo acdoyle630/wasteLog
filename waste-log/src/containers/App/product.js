@@ -78,7 +78,6 @@ class ProductApp extends Component {
   }
 
   addProduct( product ){
-    console.log('hitting add product')
         return fetch('/api/product', {
           method: "POST",
           credentials : "include",
@@ -152,7 +151,6 @@ class ProductApp extends Component {
       })
     }
     else{
-      console.log('NO ERRORS SHOULD ADD PRODUCT')
       this.setState({
         error: '',
         validProduct : true
@@ -163,7 +161,6 @@ class ProductApp extends Component {
   }
 
   clearState = () => {
-    console.log('clearing State')
     this.setState({
       productName : "",
       productCategory : "",
@@ -171,11 +168,9 @@ class ProductApp extends Component {
       productCategory : "",
       productUnit: ""
     })
-    console.log(this.state)
   }
 
   render() {
-    console.log(this.props.products)
     if(this.state.returnHome === true || this.props.currentUser === ''){
       return(
         <Redirect to={{
