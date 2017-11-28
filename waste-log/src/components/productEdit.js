@@ -4,6 +4,8 @@
 import React,{Component} from 'react';
 import { connect } from 'react-redux'
 import { loadCurrentProduct, loadProducts } from '../action'
+import { Redirect } from 'react-router-dom';
+
 
 
 class ProductEditApp extends Component {
@@ -16,7 +18,8 @@ class ProductEditApp extends Component {
       productCategory : this.props.currentProduct.productCategory,
       productPrice : this.props.currentProduct.productPrice,
       productUnit : this.props.currentProduct.productUnit,
-      id : this.props.currentProduct.id
+      id : this.props.currentProduct.id,
+      showForm : this.props.showForm
     }
 
   }
@@ -69,34 +72,40 @@ class ProductEditApp extends Component {
   }
 
   updateState( state ){
-    console.log( state )
     this.props.loadCurrentProduct( state )
     this.updateAllProducts();
   }
 
   updateAllProducts = () =>{
-    console.log(this.props.currentProduct)
     let updatedStoreArray = [];
-    //this.props.loadProducts( [this.props.products.concat[(this.props.currentProduct)]])
-    // console.log(this.props.products)
-    // console.log(this.props.currentProduct)
-    // let upDatedStore =(this.props.products.concat(this.props.currentProduct))
-    // this.props.loadProducts(upDatedStore);
     for(let i = 0; i<this.props.products.length; i++){
       if( this.props.products[i].id !== this.props.currentProduct.id){
-        console.log('readding product')
         updatedStoreArray.push(this.props.products[i])
       }
       if( this.props.products[i].id === this.props.currentProduct.id){
-        console.log('adding replacment')
         updatedStoreArray.push(this.props.currentProduct)
       }
     }
     this.props.loadProducts(updatedStoreArray)
+    this.setState({
+      showForm : this.props.showForm
+    })
   }
 
 
    render() {
+    console.log(this.props.showForm)
+    console.log(this.state.showForm)
+
+      if(this.state.showForm === this.props.showForm){
+        console.log('go home')
+      return(
+        <Redirect to={{
+          pathname : "/product"
+        }} />
+        )
+    }
+
     return(
       <div className="product-edit-list">
         <h4>
