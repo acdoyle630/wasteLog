@@ -154,30 +154,34 @@ class App extends Component {
     if(this.state.signedUp === false){
       return (
         <div className="App">
-          <header className="App-header">
-            <img src={logo} className="App-logo" alt="logo" />
-            <h1 className="App-title">Waste-Log SIGN UP PAGE</h1>
-          </header>
-          <div className = "testing">
-            <form onSubmit = {this.handleSignInSubmit} className = "product-post-form">
-              <input className = "user-name" type = "text" placeholder = "User Name" value = {this.username} onChange = {this.handleusernameChange} />
-              <input className = "password" type = "password" placeholder = "Password" value = {this.password} onChange = {this.handlePasswordChange} />
-              <input className = "password" type = "password" placeholder = "Password" value = {this.passwordTwo} onChange = {this.handlePasswordTwoChange} />
-              <button className = "button" type = "submit">
-              SIGN UP
-              </button>
+          <div className = "log-in-form">
+            <div className="log-in-form-logo-div">
+              <h1 className="log-in-form-logo"> TOSSED </h1>
+            </div>
+            <form onSubmit = {this.handleSignInSubmit} className = "user-name-input">
+              <div className="log-in-or-sign-up">
+                  <div className="log-in-header-div" onClick={this.redirectHome}>
+                    <h4 className="log-in-header">
+                      LOG IN
+                    </h4>
+                  </div>
+                  <div className = "chosen-button-div" >
+                    <h4 className = "sign-up-button" type = "submit">
+                    SIGN UP
+                    </h4>
+                  </div>
+                </div>
+                <input className = "user-name" type = "text" placeholder = "User Name:" value = {this.username} onChange = {this.handleusernameChange} />
+                <input className = "password" type = "password" placeholder = "Password:" value = {this.password} onChange = {this.handlePasswordChange} />
+                <input className = "password" type = "password" placeholder = "Re-Enter Password:" value = {this.passwordTwo} onChange = {this.handlePasswordTwoChange} />
+                <button className = "button-log-in" type = "submit">
+                SIGN UP
+                </button>
+                <div className="error">
+                  {this.state.error}
+                  {this.state.success}
+                </div>
             </form>
-          </div>
-          <div className="sign-in-form">
-            <form onSubmit = {this.redirectHome} >
-              <button className="button" type="submit">
-                SIGN IN
-              </button>
-            </form>
-          </div>
-          <div className="error">
-            {this.state.error}
-            {this.state.success}
           </div>
         </div>
       );

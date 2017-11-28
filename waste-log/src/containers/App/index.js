@@ -108,27 +108,32 @@ class App extends Component {
     if(this.state.loggedIn === false){
       return (
         <div className="App">
-          <header className="App-header">
-            <img src={logo} className="App-logo" alt="logo" />
-            <h1 className="App-title">Waste-Log LOGGIN PAGE</h1>
-          </header>
-          <div className = "testing">
-            <form onSubmit = {this.handleSubmit} className = "product-post-form">
-              <input className = "user-name" type = "text" placeholder = "User Name" value = {this.username} onChange = {this.handleusernameChange} />
-              <input className = "password" type = "password" placeholder = "Password" value = {this.password} onChange = {this.handlePasswordChange} />
-              <button className = "button" type = "submit">
-              LOG IN
+
+          <div className = "log-in-form">
+            <div className="log-in-form-logo-div">
+              <h1 className="log-in-form-logo"> TOSSED </h1>
+            </div>
+            <form className = "user-name-input" onSubmit ={this.handleSubmit}>
+              <div className="log-in-or-sign-up">
+                <div className="chosen-button-div">
+                  <h4 className="log-in-header">
+                    LOG IN
+                  </h4>
+                </div>
+                <div className = "sign-up-button-div" onClick={this.handleSignUpSubmit}>
+                  <h4 className = "sign-up-button" type = "submit">
+                  SIGN UP
+                  </h4>
+                </div>
+            </div>
+              <input className = "user-name" type = "text" placeholder = "User Name:" value = {this.username} onChange = {this.handleusernameChange} />
+              <input className = "password" type = "password" placeholder = "Password:" value = {this.password} onChange = {this.handlePasswordChange} />
+              <button className = "button-log-in" type = "submit">
+              GET STARTED
               </button>
-            </form>
-          </div>
-          <div className="error">
-            {this.state.error}
-          </div>
-          <div className = "testing">
-            <form onSubmit = {this.handleSignUpSubmit} className = "sign-up-form">
-              <button className = "button" type = "submit">
-              SIGN UP
-              </button>
+              <div className="error">
+                {this.state.error}
+              </div>
             </form>
           </div>
         </div>

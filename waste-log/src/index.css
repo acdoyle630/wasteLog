@@ -4,7 +4,78 @@ body {
   font-family: sans-serif;
 }
 
+.App{
+  height: 100vh;
+  margin: 0px;
+  border: 0px;
+  padding: 0px;
+}
+
 .product-edit-list {
   border : 1px black solid;
   background-color: red
 }
+
+.log-in-form{
+  display: flex;
+  justify-content: space-between;
+  height: 100%;
+  margin: 0px;
+  margin-right: 20%;
+  border: 0px;
+  padding: 0px;
+}
+
+.log-in-form-logo-div{
+  background-color: MediumSeaGreen;
+  width: 40%;
+  margin: 0px;
+  border: 0px;
+  padding: 0px;
+}
+
+.log-in-form-logo{
+  color: white;
+  padding-top: 20%;
+  font-size: 100px;
+}
+
+.log-in-or-sign-up{
+  display: flex;
+  justify-content: space-around;
+  align-content: center;
+}
+
+.sign-up-button-div, .log-in-header-div, .chosen-button-div{
+  border: 1px solid black;
+  padding: 10px;
+  display: flex;
+  flex-grow: 1;
+  justify-content: center;
+}
+
+.chosen-button-div{
+  background-color: MediumSeaGreen;
+  color: white;
+}
+
+.user-name-input{
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+  padding: 10px;
+  padding-top: 10%;
+}
+
+.user-name, .password, .button-log-in {
+  margin-bottom: 10px;
+  margin-top: 10px;
+  height: 5%;
+}
+
+.error{
+  font-size: 30px;
+}
+
+
+
