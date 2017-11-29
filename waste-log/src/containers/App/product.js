@@ -20,8 +20,8 @@ class ProductApp extends Component {
       error : "",
       returnHome : false,
       showProducts : false,
-      allProductNames : [],
       validProduct : false
+
     };
   }
 
@@ -35,12 +35,6 @@ class ProductApp extends Component {
       this.props.loadProducts( products )
     }).catch(err =>{
       throw err;
-    }).then(() => {
-     for(let i = 0; i<this.props.products.length; i++){
-       this.setState({
-         allProductNames : this.state.allProductNames.concat([this.props.products[i].productName])
-       })
-     }
     })
   }
 
@@ -91,9 +85,6 @@ class ProductApp extends Component {
             return(response.json())
           }).then((data) => {
             this.props.loadProducts(this.props.products.concat(data))
-            this.setState({
-              allProductNames : this.state.allProductNames.concat([data.productName])
-            })
             this.clearState();
           }).catch(err =>{
           throw err;
@@ -185,6 +176,14 @@ class ProductApp extends Component {
         )
     }
 
+    if(this.props.currentProduct !== ''){
+     return(
+      <Redirect to={{
+        pathname : '/productEdit'
+      }} />
+      )
+    }
+
 
     return (
       <div className="App">
@@ -226,7 +225,8 @@ class ProductApp extends Component {
 const mapStateToProps = (state) =>{
   return {
     products : state.products,
-    currentUser : state.currentUser
+    currentUser : state.currentUser,
+    currentProduct : state.currentProduct
   };
 }
 

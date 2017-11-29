@@ -35,7 +35,7 @@ class ProductListApp extends Component {
   }
 
    render() {
-    console.log(this.props.products)
+    console.log(this.props.currentProduct)
     if(this.state.showForm !== this.props.showForm && this.props.products.length > 0){
       return(
         <div className="product-list">
@@ -76,9 +76,7 @@ class ProductListApp extends Component {
           <h2 className="product-list-header">
             ALL PRODUCTS
           </h2>
-          <div className="edit-page">
-            <ProductEdit showForm = {Math.floor(Math.random() * 1000)} />
-          </div>
+
           <ul>
             {
                this.props.products.map((products) =>

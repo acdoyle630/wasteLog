@@ -14,6 +14,7 @@ import registerServiceWorker from './registerServiceWorker';
 import product from './containers/App/product';
 import signup from './containers/App/signup';
 import home from './containers/App/home';
+import productEdit from './containers/App/productEdit';
 
 
 const store = createStore(
@@ -29,6 +30,8 @@ ReactDOM.render(
         <Route path="/product" component={product} />
         <Route path="/signUp" component={signup} />
         <Route path="/home" component={home} />
+        <Route path="/productEdit" component={productEdit} />
+
       </div>
     </Router>
   </Provider>,
