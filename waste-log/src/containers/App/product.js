@@ -25,7 +25,7 @@ class ProductApp extends Component {
     };
   }
 
-  componentDidMount() {
+  componentWillMount() {
     fetch('/api/Product', {
       method : "GET",
       credentials: 'include'
@@ -131,8 +131,14 @@ class ProductApp extends Component {
   }
 
   verifyProduct( product ){
-    console.log('verifying?')
-    if( this.state.allProductNames.indexOf(product.productName) > -1){
+    console.log(this.props.products)
+    let allProductName = [];
+
+    for(let i = 0; i< this.props.products; i++){
+      allProductName.push(this.props.products[i].productName)
+    }
+
+    if( allProductName.indexOf(product.productName) > -1){
       this.setState({
         error : 'PRODUCT NAME ALREADY USED',
         validProduct : false
@@ -179,68 +185,14 @@ class ProductApp extends Component {
         )
     }
 
-    if(this.state.showProducts === false){
-      return(
-        <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Waste-Log</h1>
-          <h2 className="current-user">
-            {this.props.currentUser}
-          </h2>
-        </header>
-        <div className = "testing">
-          <form onSubmit = {this.handleSubmit} className = "product-post-form">
-            <input className = "product-name" type = "text" placeholder = "Product Name" value = {this.state.productName} onChange = {this.handleProductNameChange} />
-            <input className = "product-category" type = "text" placeholder = "Product Category" value = {this.state.productCategory} onChange = {this.handleProductCategoryChange} />
-            <input className = "product-price" type = "decimal" placeholder = "Product Price" value = {this.state.productPrice} onChange = {this.handleProductPriceChange} />
-            <input className = "product-unit" type = "text" placeholder = "Unit" value = {this.state.productUnit} onChange = {this.handleProductUnitChange} />
-            <button className = "button" type = "submit">
-            Add Product
-            </button>
-          </form>
-        </div>
-        <div className="error">
-          {this.state.error}
-        </div>
-        <div className="Return Home">
-          <form onSubmit={this.redirectHome}>
-            <button className = "button" type = "submit">
-              LOG OUT
-            </button>
-          </form>
-        </div>
-        <div className="all-products">
-          <button className="button" onClick={this.showOrHideProducts}>
-            SHOW ALL PRODUCTS
-          </button>
-        </div>
-      </div>
-        )
-    }
+
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Waste-Log</h1>
+          <h1 className="App-title">TOSSED</h1>
           <h2 className="current-user">
-            {this.props.currentUser}
+            {this.props.currentUser}'s Products
           </h2>
-        </header>
-        <div className = "testing">
-          <form onSubmit = {this.handleSubmit} className = "product-post-form">
-            <input className = "product-name" type = "text" placeholder = "Product Name" value = {this.state.productName} onChange = {this.handleProductNameChange} />
-            <input className = "product-category" type = "text" placeholder = "Product Category" value = {this.state.productCategory} onChange = {this.handleProductCategoryChange} />
-            <input className = "product-price" type = "decimal" placeholder = "Product Price" value = {this.state.productPrice} onChange = {this.handleProductPriceChange} />
-            <input className = "product-unit" type = "text" placeholder = "Unit" value = {this.state.productUnit} onChange = {this.handleProductUnitChange} />
-            <button className = "button" type = "submit">
-            Add Product
-            </button>
-          </form>
-        </div>
-        <div className="error">
-          {this.state.error}
-        </div>
         <div className="Return Home">
           <form onSubmit={this.redirectHome}>
             <button className = "button" type = "submit">
@@ -248,11 +200,23 @@ class ProductApp extends Component {
             </button>
           </form>
         </div>
-        <div className="all-products">
-          <button className="button" onClick={this.showOrHideProducts}>
-            HIDE ALL PRODUCTS
-          </button>
-          <ProductList product={this.state.allProducts} />
+        </header>
+        <div className="all-products-div">
+            <form onSubmit = {this.handleSubmit} className = "product-post-form">
+              <input className = "product-name" type = "text" placeholder = "Product Name" value = {this.state.productName} onChange = {this.handleProductNameChange} />
+              <input className = "product-category" type = "text" placeholder = "Product Category" value = {this.state.productCategory} onChange = {this.handleProductCategoryChange} />
+              <input className = "product-price" type = "decimal" placeholder = "Product Price" value = {this.state.productPrice} onChange = {this.handleProductPriceChange} />
+              <input className = "product-unit" type = "text" placeholder = "Unit" value = {this.state.productUnit} onChange = {this.handleProductUnitChange} />
+              <button className = "product-add-button" type = "submit">
+              Add Product
+              </button>
+            </form>
+          <div className="error">
+            {this.state.error}
+          </div>
+          <div className="all-products">
+            <ProductList showForm={Math.floor(Math.random() * 1000)} />
+          </div>
         </div>
       </div>
     );

@@ -77,5 +77,64 @@ body {
   font-size: 30px;
 }
 
+.routes{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
 
+.go-to-products, .go-to-recipes{
+  display: flex;
+  border: 1px white solid;
+  flex-grow: 1;
+  justify-content: center;
+}
+
+.all-products-div{
+  height: 100vh;
+  display: flex;
+  flex-direction: row;
+}
+
+.product-post-form{
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  padding: 10%;
+}
+
+.all-products{
+  display: flex;
+  flex-grow: 1;
+  padding: 7%;
+}
+
+.product-name, .product-category, .product-price, .product-unit, .product-add-button{
+  margin-bottom: 10px;
+  margin-top: 10px;
+  height: 5%;
+}
+
+.product-add-button{
+  background-color: MediumSeaGreen;
+  color: white;
+}
+
+.product-list-object{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  border-bottom: dashed 1px MediumSeaGreen;
+  width: 500px;
+}
+
+.product-list-header{
+  color: MediumSeaGreen;
+  border-bottom: solid MediumSeaGreen 1px;
+}
+
+.product-list-edit-button{
+  background-color: MediumSeaGreen;
+  color: white;
+}
 

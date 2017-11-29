@@ -93,7 +93,7 @@ class App extends Component {
     if(this.state.loggedIn === true){
       return(
         <Redirect to={{
-          pathname : "/product"
+          pathname : "/home"
         }} />
         )
     }

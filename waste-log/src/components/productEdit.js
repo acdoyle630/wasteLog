@@ -73,10 +73,11 @@ class ProductEditApp extends Component {
 
   updateState( state ){
     this.props.loadCurrentProduct( state )
-    this.updateAllProducts();
+    this.updateAllProducts( "Edit");
   }
 
   updateAllProducts = ( command ) =>{
+    console.log( command )
     let updatedStoreArray = [];
     for(let i = 0; i<this.props.products.length; i++){
       if( this.props.products[i].id !== this.props.currentProduct.id){
@@ -114,7 +115,7 @@ class ProductEditApp extends Component {
           "Accept": "application/json"
         },
         body : JSON.stringify(this.state)
-      }).then((response) =>{
+      }).then(() =>{
           this.updateAllProducts('delete')
       }).catch(err =>{
         throw err;

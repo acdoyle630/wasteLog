@@ -14,11 +14,10 @@ class ProductListApp extends Component {
 
     this.state = {
       currentId : null,
-      showForm : false
+      showForm : null
     }
 
   }
-
 
   editProduct = ( event ) =>{
     this.findCurrentProductObject(event.target.value);
@@ -29,27 +28,28 @@ class ProductListApp extends Component {
       if(this.props.products[i].id === Number(productId)){
         this.props.loadCurrentProduct(this.props.products[i])
         this.setState({
-          showForm : true
+          showForm : this.props.showForm
         })
       }
     }
   }
 
    render() {
-    if(this.state.showForm === false){
+    console.log(this.props.products)
+    if(this.state.showForm !== this.props.showForm && this.props.products.length > 0){
       return(
         <div className="product-list">
-          <h2>
+          <h3 className="product-list-header">
             ALL PRODUCTS
-          </h2>
+          </h3>
 
           <ul>
             {
                this.props.products.map((products) =>
-                <li className="event" key={products.id}>
-                  <h3>{products.productName}</h3>
-                  <button value={products.id} onClick={this.editProduct}>
-                    EDIT
+                <li className="product-list-object" key={products.id}>
+                  <h3 className="product-list-name">{products.productName}</h3>
+                  <button value={products.id} onClick={this.editProduct} className="product-list-edit-button">
+                    Edit Product
                   </button>
                 </li>
                 )
@@ -58,10 +58,22 @@ class ProductListApp extends Component {
         </div>
         )
       }
-    if(this.state.showForm === true){
+
+    if(this.state.showForm !== this.props.showForm && this.props.products.length < 1){
       return(
         <div className="product-list">
           <h2>
+           ADD PRODUCTS TO BEGIN
+          </h2>
+
+        </div>
+        )
+      }
+
+    if(this.state.showForm === this.props.showForm && this.props.products.length > 0){
+      return(
+        <div className="product-list">
+          <h2 className="product-list-header">
             ALL PRODUCTS
           </h2>
           <div className="edit-page">
@@ -70,7 +82,7 @@ class ProductListApp extends Component {
           <ul>
             {
                this.props.products.map((products) =>
-                <li className="event" key={products.id}>
+                <li className="product-list-object" key={products.id}>
                   <h3>{products.productName}</h3>
                   <button value={products.id} onClick={this.editProduct}>
                     EDIT
@@ -81,6 +93,17 @@ class ProductListApp extends Component {
           </ul>
         </div>
         )
+      }
+      else {
+        return(
+        <div className="product-list">
+          <h2>
+           ADD PRODUCTS TO BEGIN
+          </h2>
+
+        </div>
+        )
+
       }
    }
 }
