@@ -3,20 +3,81 @@ import logo from './logo.svg';
 import './styles.css';
 import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
-import { loadProducts } from '../../action'
+import { loadProducts, loadCurrentProduct } from '../../action'
 import ProductList from '../../components/productList';
 
 
-class HomeApp extends Component {
+class WasteApp extends Component {
 
   constructor(props){
     super(props);
 
     this.state = {
-      redirect: ''
+      redirect: '',
+      productName: '',
+      productCategory: '',
+      dayOfWeek : '',
+      amount : '',
+      reason : '',
+      week : '',
     };
 
   }
+
+  componentDidMount() {
+    fetch('/api/Product', {
+      method : "GET",
+      credentials: 'include'
+    }).then(( response )=>{
+      return response.json()
+    }).then(( products ) =>{
+      this.props.loadProducts( products )
+    }).catch(err =>{
+      throw err;
+    })
+  }
+
+  handleSubmit = ( event ) => {
+    event.preventDefault()
+    this.verifyProduct( this.state.productName );
+  }
+
+  handleAmountChange = ( event ) => {
+    this.setState({
+      amount : event.target.value
+    })
+  }
+
+  handleReasonChange = ( event ) => {
+    this.setState({
+      reason : event.target.value
+    })
+  }
+
+  handleProductNameChange = ( event ) => {
+    this.setState({
+      productName : event.target.value
+    })
+  }
+
+  verifyProduct( name ) {
+    for(let i = 0; i<this.props.products.length; i++){
+      if(this.props.products[i].productName === name){
+        this.props.loadCurrentProduct(this.props.products[i])
+        this.loadWasteState();
+      }
+      //else{}
+    }
+  }
+
+  loadWasteState = () => {
+    if(this.state.amount !== '' && this.state.reason !== ''){
+      // current product has not loaded yet... need to set state and post
+      this.postWaste()
+    }
+  }
+
+
 
   redirectLogout = ( event ) => {
     event.preventDefault();
@@ -51,7 +112,6 @@ class HomeApp extends Component {
 
 
   render() {
-
     if(this.props.currentUser === '' || this.state.redirect === 'logout'){
       return(
         <Redirect to={{
@@ -100,6 +160,16 @@ class HomeApp extends Component {
             </div>
           </div>
         </header>
+
+
+        <form onSubmit = {this.handleSubmit} className = "product-post-form">
+              <input className = "product-name" type = "text" placeholder = "Wasted Product Name" value = {this.state.ProductName} onChange = {this.handleProductNameChange} />
+              <input className = "amount" type = "text" placeholder = "Wasted Product Amount" value = {this.state.amount} onChange = {this.handleAmountChange} />
+              <input className = "product-price" type = "text" placeholder = "Reason" value = {this.state.reason} onChange = {this.handleReasonChange} />
+              <button className = "product-add-button" type = "submit">
+              LOG WASTE
+              </button>
+            </form>
       </div>
     );
   }
@@ -108,7 +178,8 @@ class HomeApp extends Component {
 const mapStateToProps = (state) =>{
   return {
     products : state.products,
-    currentUser : state.currentUser
+    currentUser : state.currentUser,
+    currentProduct : state.currentProduct
   };
 }
 
@@ -116,13 +187,16 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     loadProducts : products => {
       dispatch(loadProducts(products))
+    },
+    loadCurrentProduct : product => {
+      dispatch(loadCurrentProduct(product))
     }
   }
 }
 
-const ConnectedHomeApp = connect(
+const ConnectedWasteApp = connect(
   mapStateToProps,
   mapDispatchToProps
-  )(HomeApp);
+  )(WasteApp);
 
-export default ConnectedHomeApp;
+export default ConnectedWasteApp;

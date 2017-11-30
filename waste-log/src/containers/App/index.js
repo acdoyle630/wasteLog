@@ -88,8 +88,6 @@ class App extends Component {
 
 
   render() {
-    console.log(`THIS.STATE: ${this.state}`)
-    console.log(this.props.currentUser)
     if(this.state.loggedIn === true){
       return(
         <Redirect to={{
