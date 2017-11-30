@@ -18,6 +18,23 @@ class HomeApp extends Component {
 
   }
 
+  redirectLogout = ( event ) => {
+    event.preventDefault();
+    fetch('/logout', {
+            method: "GET",
+            credentials : "include",
+            headers :
+            {
+              "Content-Type": "application/json",
+              "Accept": "application/json"
+            }
+          }).then(() => {
+            this.setState({
+              redirect : 'logout'
+            });
+          })
+  }
+
   redirectProducts = ( event ) => {
     event.preventDefault();
     this.setState({
@@ -25,17 +42,10 @@ class HomeApp extends Component {
     })
   }
 
-  redirectLogout = ( event ) =>{
+  redirectHome = ( event ) =>{
     event.preventDefault();
     this.setState({
-      redirect : 'logout'
-    })
-  }
-
-  redirectWaste = ( event ) => {
-    event.preventDefault();
-    this.setState({
-      redirect : 'waste'
+      redirect : 'home'
     })
   }
 
@@ -58,13 +68,14 @@ class HomeApp extends Component {
         )
     }
 
-    if(this.state.redirect === 'waste'){
+    if(this.state.redirect === 'home'){
       return(
         <Redirect to={{
-          pathname : '/waste'
+          pathname : '/Home'
         }} />
         )
     }
+
 
 
 
@@ -74,18 +85,18 @@ class HomeApp extends Component {
           <div className="title-logout-div">
             <div className="empty-header-div">
             </div>
-            <h1 className="App-title">TOSSED</h1>
+            <h1 className="App-title">TOSSED WASTE LOG</h1>
             <button className="logout-button"onClick={this.redirectLogout}>LOGOUT</button>
           </div>
           <h2 className="current-user">
             Welcome {this.props.currentUser}
           </h2>
           <div className="routes">
+            <div className="go-to-waste" onClick={this.redirectHome}>
+              <h4>HOME</h4>
+            </div>
             <div className="go-to-products" onClick ={this.redirectProducts}>
               <h4>PRODUCTS</h4>
-            </div>
-            <div className="go-to-waste" onClick={this.redirectWaste}>
-              <h4>WASTE</h4>
             </div>
           </div>
         </header>

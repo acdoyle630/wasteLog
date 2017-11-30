@@ -83,7 +83,12 @@ body {
   justify-content: space-around;
 }
 
-.go-to-products, .go-to-recipes{
+.go-to-products:hover, .go-to-waste:hover, .go-to-home:hover {
+  background-color: white;
+  color: MediumSeaGreen;
+}
+
+.go-to-products, .go-to-waste, .go-to-home{
   display: flex;
   border: 1px white solid;
   flex-grow: 1;
@@ -138,3 +143,25 @@ body {
   color: white;
 }
 
+.title-logout-div{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.logout-button{
+  background-color: white;
+  color: MediumSeaGreen;
+}
+
+.App-title{
+  display: flex;
+  flex: 0 1 auto;
+  position: absolute;
+  left: 48%;
+}
+
+.product-add-error{
+  display: flex;
+  justify-content: center;
+}

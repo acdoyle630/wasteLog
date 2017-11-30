@@ -15,6 +15,7 @@ import product from './containers/App/product';
 import signup from './containers/App/signup';
 import home from './containers/App/home';
 import productEdit from './containers/App/productEdit';
+import waste from './containers/App/waste';
 
 
 const store = createStore(
@@ -31,6 +32,8 @@ ReactDOM.render(
         <Route path="/signUp" component={signup} />
         <Route path="/home" component={home} />
         <Route path="/productEdit" component={productEdit} />
+        <Route path="/waste" component={waste} />
+
 
       </div>
     </Router>

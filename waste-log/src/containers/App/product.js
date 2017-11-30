@@ -18,7 +18,7 @@ class ProductApp extends Component {
       productPrice : "",
       productUnit : "",
       error : "",
-      returnHome : false,
+      redirect : '',
       showProducts : false,
       validProduct : false
 
@@ -91,7 +91,7 @@ class ProductApp extends Component {
         })
     }
 
-  redirectHome = ( event ) => {
+  redirectLogout = ( event ) => {
     event.preventDefault();
     fetch('/logout', {
             method: "GET",
@@ -103,9 +103,23 @@ class ProductApp extends Component {
             }
           }).then(() => {
             this.setState({
-              returnHome : true
+              redirect : 'logout'
             });
           })
+  }
+
+
+  redirectHome = ( event ) =>{
+    event.preventDefault();
+    this.setState({
+      redirect : 'home'
+    })
+  }
+
+  redirectWaste = ( event ) => {
+    this.setState({
+      redirect : 'waste'
+    })
   }
 
   showOrHideProducts = () =>{
@@ -125,7 +139,7 @@ class ProductApp extends Component {
     console.log(this.props.products)
     let allProductName = [];
 
-    for(let i = 0; i< this.props.products; i++){
+    for(let i = 0; i< this.props.products.length; i++){
       allProductName.push(this.props.products[i].productName)
     }
 
@@ -168,7 +182,7 @@ class ProductApp extends Component {
   }
 
   render() {
-    if(this.state.returnHome === true || this.props.currentUser === ''){
+    if(this.state.redirect === 'logout' || this.props.currentUser === ''){
       return(
         <Redirect to={{
           pathname : '/'
@@ -184,22 +198,48 @@ class ProductApp extends Component {
       )
     }
 
+    if(this.state.redirect === 'home'){
+     return(
+      <Redirect to={{
+        pathname : '/home'
+      }} />
+      )
+    }
+
+    if(this.state.redirect === 'waste'){
+      return(
+        <Redirect to={{
+          pathname : '/waste'
+        }} />
+        )
+    }
+
 
     return (
       <div className="App">
         <header className="App-header">
-          <h1 className="App-title">TOSSED</h1>
+          <div className="title-logout-div">
+            <div className="empty-header-div">
+            </div>
+            <h1 className="App-title">TOSSED</h1>
+            <button className="logout-button"onClick={this.redirectLogout}>LOGOUT</button>
+          </div>
           <h2 className="current-user">
-            {this.props.currentUser}'s Products
+            Welcome {this.props.currentUser}
           </h2>
-        <div className="Return Home">
-          <form onSubmit={this.redirectHome}>
-            <button className = "button" type = "submit">
-              LOG OUT
-            </button>
-          </form>
-        </div>
+          <div className="routes">
+             <div className="go-to-home" onClick={this.redirectHome}>
+              <h4>HOME</h4>
+            </div>
+            <div className="go-to-waste" onClick={this.redirectWaste}>
+              <h4>WASTE</h4>
+            </div>
+          </div>
+
         </header>
+        <div className="product-add-error">
+          {this.state.error}
+        </div>
         <div className="all-products-div">
             <form onSubmit = {this.handleSubmit} className = "product-post-form">
               <input className = "product-name" type = "text" placeholder = "Product Name" value = {this.state.productName} onChange = {this.handleProductNameChange} />
@@ -210,9 +250,6 @@ class ProductApp extends Component {
               Add Product
               </button>
             </form>
-          <div className="error">
-            {this.state.error}
-          </div>
           <div className="all-products">
             <ProductList showForm={Math.floor(Math.random() * 1000)} />
           </div>
