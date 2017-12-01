@@ -20,7 +20,10 @@ class App extends Component {
       error : "",
       passwordsMatch : false,
       passwordSuccessMessage: "",
-      passwordNoMatch : "Passwords Do Not Match",
+      passwordNoMatch : "Passwords do not match",
+      passwordNoLength: "Password must be at least 8 characters",
+      userNameNoLength: "Username must be at least 8 characters",
+      userNameLength: "",
       success : ""
     };
   }
@@ -41,10 +44,38 @@ class App extends Component {
 
 
   setSuccessMessage = () =>{
-    if(this.state.password === this.state.passwordTwo && this.state.password.length >= 8){
+    if(this.state.password === this.state.passwordTwo && this.state.password.length >=1 ){
       this.setState({
         passwordSuccessMessage: "Passwords Match",
         passwordNoMatch : ""
+      })
+    }
+    if(this.state.password !== this.state.passwordTwo){
+      this.setState({
+        passwordNoMatch : "Passwords do not match",
+        passwordSuccessMessage : ""
+      })
+    }
+    if(this.state.password.length >=8){
+      this.setState({
+        passwordNoLength : "",
+      })
+    }
+    if(this.state.password.length < 8){
+      this.setState({
+        passwordNoLength : "Password must be at least 8 characters"
+      })
+    }
+    if(this.state.username.length >= 8) {
+      this.setState({
+        userNameNoLength : '',
+        userNameLength : 'Username OK'
+      })
+    }
+    if(this.state.username.length < 8){
+      this.setState({
+        userNameLength : "",
+        userNameNoLength : "Username must be at least 8 characters"
       })
     }
   }
@@ -192,11 +223,14 @@ class App extends Component {
                   </div>
                 </div>
                 <input className = "user-name" type = "text" placeholder = "User Name:" value = {this.username} onChange = {this.handleusernameChange} />
+                <div className="password-fail">{this.state.userNameNoLength}</div>
+                <div className="password-success">{this.state.userNameLength}</div>
                 <input className = "password" type = "password" placeholder = "Password:" value = {this.password} onChange = {this.handlePasswordChange} />
                 <input className = "password" type = "password" placeholder = "Re-Enter Password:" value = {this.passwordTwo} onChange = {this.handlePasswordTwoChange} />
                 <div className ="password-message">
                   <div className="password-success">{this.state.passwordSuccessMessage}</div>
                   <div className="password-fail">{this.state.passwordNoMatch}</div>
+                  <div className="password-fail">{this.state.passwordNoLength}</div>
                 </div>
                 <button className = "button-log-in" type = "submit">
                 SIGN UP
