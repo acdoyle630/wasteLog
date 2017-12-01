@@ -151,25 +151,46 @@ class ProductEditApp extends Component {
 
     return (
       <div className="App">
-        <header className="App-header">
-          <h1 className="App-title">TOSSED</h1>
+         <header className="App-header">
+          <div className="title-logout-div">
+            <div className="empty-header-div">
+            </div>
+            <h1 className="App-title">TOSSED</h1>
+            <button className="logout-button"onClick={this.redirectLogout}>LOGOUT</button>
+          </div>
           <h2 className="current-user">
-            {this.props.currentUser}'s Products
+            Product Edit {this.props.currentUser}
           </h2>
-        <div className="Return Home">
-          <form onSubmit={this.redirectHome}>
-            <button className = "button" type = "submit">
-              LOG OUT
-            </button>
-          </form>
-        </div>
+          <div className="routes">
+             <div className="go-to-home" onClick={this.redirectHome}>
+              <h4>HOME</h4>
+            </div>
+            <div className="go-to-waste" onClick={this.redirectWaste}>
+              <h4>WASTE</h4>
+            </div>
+          </div>
+
         </header>
+
         <div className="all-products-div">
             <form onSubmit = {this.handleSubmit} className = "product-post-form">
-              <input className = "product-name" type = "text" placeholder = "Product Name" value = {this.state.productName} onChange = {this.handleProductNameChange} />
-              <input className = "product-category" type = "text" placeholder = "Product Category" value = {this.state.productCategory} onChange = {this.handleProductCategoryChange} />
-              <input className = "product-price" type = "decimal" placeholder = "Product Price" value = {this.state.productPrice} onChange = {this.handleProductPriceChange} />
-              <input className = "product-unit" type = "text" placeholder = "Unit" value = {this.state.productUnit} onChange = {this.handleProductUnitChange} />
+              <h5 className="edit-product-header">Edit Product: {this.props.currentProduct.productName}</h5>
+              <div className ="product-edit-form">
+                <div className = "product-edit-name-text">Product Name:</div>
+                <input className = "product-edit-name" type = "text" placeholder = "Product Name" value = {this.state.productName} onChange = {this.handleProductNameChange} />
+              </div>
+              <div className ="product-edit-form">
+                <div className="product-edit-category-text">Product Category:</div>
+                <input className = "product-edit-category" type = "text" placeholder = "Product Category" value = {this.state.productCategory} onChange = {this.handleProductCategoryChange} />
+              </div>
+              <div className ="product-edit-form">
+                <div className="product-edit-price-text">Product Price: </div>
+                <input className = "product-edit-price" type = "decimal" placeholder = "Product Price" value = {this.state.productPrice} onChange = {this.handleProductPriceChange} />
+              </div>
+              <div className ="product-edit-form">
+                <div className="product-edit-unit-text">product Unit</div>
+                <input className = "product-edit-unit" type = "text" placeholder = "Unit" value = {this.state.productUnit} onChange = {this.handleProductUnitChange} />
+              </div>
               <div className="product-edit-buttons">
                 <button className = "product-add-button" type = "submit">
                 Edit Product

@@ -63,17 +63,44 @@ class WasteApp extends Component {
   verifyProduct( name ) {
     for(let i = 0; i<this.props.products.length; i++){
       if(this.props.products[i].productName === name){
-        this.props.loadCurrentProduct(this.props.products[i])
-        this.loadWasteState();
+        console.log(this.props.products[i])
+        this.setState({
+          productCategory: this.props.products[i].productCategory,
+          productName: this.props.products[i].productName,
+          dayOfWeek: 'Monday',
+          amount: Number(this.state.amount),
+          reason: this.state.reason,
+          week: '11',
+          },
+          this.logWaste
+        );
       }
+
       //else{}
     }
   }
 
-  loadWasteState = () => {
+
+
+  logWaste = () => {
     if(this.state.amount !== '' && this.state.reason !== ''){
-      // current product has not loaded yet... need to set state and post
-      this.postWaste()
+      return fetch('/api/waste', {
+          method: "POST",
+          credentials : "include",
+          headers :
+          {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          body : JSON.stringify( this.state )
+          }).then(( response ) => {
+            return(response.json())
+          })
+          //.then((data) => {
+          //})
+          .catch(err =>{
+          throw err;
+        })
     }
   }
 
@@ -112,6 +139,7 @@ class WasteApp extends Component {
 
 
   render() {
+    console.log(this.state)
     if(this.props.currentUser === '' || this.state.redirect === 'logout'){
       return(
         <Redirect to={{
@@ -163,7 +191,7 @@ class WasteApp extends Component {
 
 
         <form onSubmit = {this.handleSubmit} className = "product-post-form">
-              <input className = "product-name" type = "text" placeholder = "Wasted Product Name" value = {this.state.ProductName} onChange = {this.handleProductNameChange} />
+              <input className = "product-name" type = "text" placeholder = "Wasted Product Name" value = {this.state.productName} onChange = {this.handleProductNameChange} />
               <input className = "amount" type = "text" placeholder = "Wasted Product Amount" value = {this.state.amount} onChange = {this.handleAmountChange} />
               <input className = "product-price" type = "text" placeholder = "Reason" value = {this.state.reason} onChange = {this.handleReasonChange} />
               <button className = "product-add-button" type = "submit">

@@ -242,6 +242,7 @@ class ProductApp extends Component {
         </div>
         <div className="all-products-div">
             <form onSubmit = {this.handleSubmit} className = "product-post-form">
+              <h3 className="edit-product-header">Add Product</h3>
               <input className = "product-name" type = "text" placeholder = "Product Name" value = {this.state.productName} onChange = {this.handleProductNameChange} />
               <input className = "product-category" type = "text" placeholder = "Product Category" value = {this.state.productCategory} onChange = {this.handleProductCategoryChange} />
               <input className = "product-price" type = "decimal" placeholder = "Product Price" value = {this.state.productPrice} onChange = {this.handleProductPriceChange} />

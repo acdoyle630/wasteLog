@@ -173,3 +173,22 @@ body {
 .password-fail{
   color: red;
 }
+
+.product-edit-name, .product-edit-category, .product-edit-price, .product-edit-unit{
+  height: 35px;
+  width: 100%;
+}
+
+.product-edit-name-text, .product-edit-category-text, .product-edit-price-text, .product-edit-unit-text{
+  text-align: left;
+  color: MediumSeaGreen;
+}
+
+.product-edit-form{
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.edit-product-header{
+  color: MediumSeaGreen;
+}

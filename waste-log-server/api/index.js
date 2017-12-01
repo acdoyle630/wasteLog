@@ -4,7 +4,7 @@ const Router  = express.Router();
 
 Router.use('/product', require('./Product'));
 Router.use('/user', require('./User'));
-//Router.use('/weekly', require('./Weekly'));
+Router.use('/waste', require('./Waste'));
 
 
 module.exports = Router;

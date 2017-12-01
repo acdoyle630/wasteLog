@@ -2,7 +2,7 @@
 /*jshint esversion: 6 */
 
 const express = require('express');
-const product = express.Router();
+const waste = express.Router();
 const db = require('../../models');
 const { Waste } = db;
 
