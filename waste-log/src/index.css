@@ -165,3 +165,11 @@ body {
   display: flex;
   justify-content: center;
 }
+
+.password-success{
+  color: MediumSeaGreen;
+}
+
+.password-fail{
+  color: red;
+}

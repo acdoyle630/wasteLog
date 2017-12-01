@@ -20,6 +20,7 @@ class App extends Component {
       error : "",
       passwordsMatch : false,
       passwordSuccessMessage: "",
+      passwordNoMatch : "Passwords Do Not Match",
       success : ""
     };
   }
@@ -37,6 +38,17 @@ class App extends Component {
     })
   }
 
+
+
+  setSuccessMessage = () =>{
+    if(this.state.password === this.state.passwordTwo && this.state.password.length >= 8){
+      this.setState({
+        passwordSuccessMessage: "Passwords Match",
+        passwordNoMatch : ""
+      })
+    }
+  }
+
   usersToState( users ) {
     for(let i = 0; i < users.length; i++){
       this.setState({
@@ -49,20 +61,26 @@ class App extends Component {
   handleusernameChange = ( event ) => {
     this.setState({
       username : event.target.value
-    })
+    },
+    this.setSuccessMessage
+    );
   }
 
 
   handlePasswordChange = ( event ) => {
     this.setState({
       password : event.target.value
-    })
+    },
+    this.setSuccessMessage
+    );
   }
 
   handlePasswordTwoChange = ( event ) => {
     this.setState({
       passwordTwo : event.target.value
-    })
+    },
+    this.setSuccessMessage
+    );
   }
 
   handleSignInSubmit = ( event ) => {
@@ -135,13 +153,6 @@ class App extends Component {
       })
   }
 
-  setSuccessState = ( event ) => {
-    if(this.state.password === this.state.passwordTwo && this.state.password.length >= 8 ){
-      this.setState({
-        passwordSuccessMessage: "passwords match"
-      })
-    }
-  }
 
   redirectHome = () => {
     this.setState({
@@ -152,7 +163,6 @@ class App extends Component {
 
 
   render() {
-      {this.setSuccessState};
 
     if(this.state.signedUp === true){
       return(
@@ -184,7 +194,9 @@ class App extends Component {
                 <input className = "user-name" type = "text" placeholder = "User Name:" value = {this.username} onChange = {this.handleusernameChange} />
                 <input className = "password" type = "password" placeholder = "Password:" value = {this.password} onChange = {this.handlePasswordChange} />
                 <input className = "password" type = "password" placeholder = "Re-Enter Password:" value = {this.passwordTwo} onChange = {this.handlePasswordTwoChange} />
-                <div className ="password-success">{this.state.passwordSuccessMessage}
+                <div className ="password-message">
+                  <div className="password-success">{this.state.passwordSuccessMessage}</div>
+                  <div className="password-fail">{this.state.passwordNoMatch}</div>
                 </div>
                 <button className = "button-log-in" type = "submit">
                 SIGN UP
