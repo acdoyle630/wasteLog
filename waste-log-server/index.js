@@ -115,5 +115,5 @@ app.get('/logout', function(req, res){
 
 app.listen(PORT, () =>{
   console.log(`server listening on port: ${PORT}`);
-  db.sequelize.sync({forceSync: true});
+  //db.sequelize.sync({forceSync: true});
 });
